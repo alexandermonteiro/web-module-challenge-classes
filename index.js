@@ -1,4 +1,3 @@
-
 /*
   EXAMPLE TASK:
     - Write an Airplane class whose constructor initializes `name` from an argument.
@@ -44,8 +43,37 @@ class Airplane {
 */
 
 class Person {
-  
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+    this.stomach = [];
+  }
+  eat(someFood) {
+    if (this.stomach.length < 10) {
+      this.stomach.push(someFood);
+    }
+  }
+  poop() {
+    this.stomach = [];
+  }
+
+  toString() {
+    return `${this.name}, ${this.age}`;
+  }
 }
+const John = new Person("John", 12);
+const Alex = new Person("Alex", 14);
+const string = John.toString();
+let Pri = new Person("Pri", 9);
+// myString.toString(Pri);
+
+console.log(John);
+console.log(Alex);
+console.log("string", string);
+console.log("stringAlex", Alex.toString());
+console.log("stringpri", Pri.toString());
+console.log(Pri);
+// console.log("string------->", myString.toString());
 
 /*
   TASK 2
@@ -62,8 +90,45 @@ class Person {
 */
 
 class Car {
-  
+  constructor(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+
+  fill(gallons) {
+    this.tank += gallons;
+  }
+
+  drive(distance) {
+    const distanceDrivable = this.tank * this.milesPerGallon;
+    if (distance <= distanceDrivable) {
+      this.odometer += distance;
+      this.tank -= distance / this.milesPerGallon;
+    } else {
+      this.odometer += distanceDrivable;
+      this.tank = 0;
+      return ` I ran out of fuel at ${this.odometer} miles!`;
+    }
+  }
 }
+
+const a4 = new Car("1111111", 20);
+const a5 = new Car("2222222", 35);
+const a6 = new Car("3333333", 40);
+const a7 = new Car("4444444", 41);
+
+// console.log("1", a4);
+
+a4.fill(200);
+console.log("a4", a4);
+
+a4.drive(100);
+console.log(a4.tank);
+
+console.log(a4.drive(100000));
+console.log(a4.tank);
 
 /*
   TASK 3
@@ -79,7 +144,15 @@ class Car {
 */
 
 class Lambdasian {
-  
+  constructor(caracteristics) {
+    this.name = caracteristics.name;
+    this.age = caracteristics.age;
+    this.location = caracteristics.location;
+  }
+
+  speak() {
+    return `Hello my name is ${this.name}, I am from ${this.location}`;
+  }
 }
 
 /*
@@ -97,8 +170,21 @@ class Lambdasian {
         + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
 */
 
-class Instructor {
+class Instructor extends Lambdasian {
+  constructor(caracteristics) {
+    super(caracteristics);
+    this.specialty = caracteristics.specialty;
+    this.favLanguage = caracteristics.favLanguage;
+    this.catchPhrase = caracteristics.catchPhrase;
+  }
 
+  demo(subject) {
+    return `Today we are learning about ${subject}`;
+  }
+
+  grade(student, subject) {
+    return `${student.name} receives a perfect score on ${subject}`;
+  }
 }
 
 /*
@@ -117,8 +203,24 @@ class Instructor {
         + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
 */
 
-class Student {
-   
+class Student extends Lambdasian {
+  constructor(caracteristics) {
+    super(caracteristics);
+    this.previousBackground = caracteristics.previousBackground;
+    this.className = caracteristics.className;
+    this.favSubjects = caracteristics.favSubjects;
+  }
+  listSubjects() {
+    return `Loving ${this.favSubjects}!`;
+  }
+
+  PRAssignment(subject) {
+    return `${this.name} as submitted a PR for ${subject}`;
+  }
+
+  sprintChallenge(subject) {
+    return `${this.name} has begun sprint challenge on ${subject}`;
+  }
 }
 
 /*
@@ -135,9 +237,66 @@ class Student {
         + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
 */
 
-class ProjectManager {
-   
+class ProjectManager extends Instructor {
+  constructor(caracteristics) {
+    super(caracteristics);
+    this.gradClassName = caracteristics.gradClassName;
+    this.favInstructor = caracteristics.favInstructor;
+  }
+  standUp(channel) {
+    return `${this.name} announces to ${channel}, @channel standy times!`;
+  }
+  debugsCode(student, subject) {
+    return `${this.name} debugs ${student.name}'s code on ${subject} `;
+  }
 }
+
+const JohnCena = new Lambdasian({
+  name: "John Cena",
+  age: "46",
+  location: "San Diego",
+});
+
+const Keran = new Instructor({
+  name: "Keran K",
+  age: 26,
+  location: "Los Angeles",
+  specialty: "JavaScript",
+  favLanguage: "JavaScript, Css, Python",
+  catchPhrase: "Enjoy the life",
+});
+
+const Alexander = new Student({
+  name: "Alexander M ",
+  age: 46,
+  location: "Sao Paulo",
+  previousBackground: "Preloader UPS",
+  favSubjects: ["JavaScript", "CSS", "Html"],
+});
+
+const Joane = new ProjectManager({
+  name: "Joane D",
+  age: 30,
+  location: "New York",
+  specialty: "react",
+  favLanguage: "JavaScript,Python,C",
+  catchPhrase: "Never give up",
+  gradClassName: "CS3",
+  favInstructor: "Dean",
+});
+
+const subjects = ["Html", "Javascript", "CSS"];
+const channel = ["web45", "web45_help", "announcements"];
+
+console.log(JohnCena.name);
+console.log(JohnCena.speak());
+console.log(`Alexander's previous background`, Alexander.previousBackground);
+// console.log(Alexander.favSubjects);
+console.log(Alexander.PRAssignment(subjects[0]));
+// console.log(Alexander.listSubjects(this.favSubjects));
+console.log(Joane.debugsCode(Alexander, subjects[0]));
+console.log(Joane.standUp(channel[1]));
+console.log(Alexander.sprintChallenge(subjects[2]));
 
 /*
   STRETCH PROBLEM (no tests!)
@@ -148,11 +307,10 @@ class ProjectManager {
       + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
 */
 
-
 //End of Challenge
 /* 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑 */
-function foo(){
-  return 'bar';
+function foo() {
+  return "bar";
 }
 
 module.exports = {
@@ -162,5 +320,5 @@ module.exports = {
   Lambdasian,
   Instructor,
   Student,
-  ProjectManager
-}
+  ProjectManager,
+};
